@@ -8,7 +8,6 @@ import (
 
 // Objetivo: Simular tareas que toman tiempo con time.Sleep y comparar
 // ejecución secuencial vs concurrente midiendo la duración total.
-// TODO: completa las secciones marcadas para observar la mejora.
 
 func tarea(id int, dur time.Duration) {
 	fmt.Printf("[tarea %d] iniciando, dur=%v\n", id, dur)
