@@ -9,7 +9,7 @@ import (
 // Objetivo: Provocar condición de carrera incrementando un contador desde múltiples goroutines,
 // luego arreglarla usando Mutex y/o atomic. Ejecuta con el detector de carrera:
 //   go run -race ./problema3
-// TODO: implementa las variantes pedidas.
+// implementa las variantes pedidas.
 
 // Variante insegura (condición de carrera):
 func incrementarInseguro(nGoroutines, nIncrementos int) int64 {
