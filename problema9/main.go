@@ -14,6 +14,7 @@ import (
 
 type tenedor struct{ mu sync.Mutex }
 
+// Versión 1: Orden Global
 func filosofo(id int, izq, der *tenedor, wg *sync.WaitGroup) {
 	// desarrolla el código para el filósofo
 	defer wg.Done()
@@ -85,4 +86,53 @@ func main() {
 
 	wg.Wait()
 	fmt.Println("Todos los filósofos han comido sin deadlock.")
+}
+
+// Versión 2: Con Mayordomo
+func filosofoConMayordomo(id int, izq, der *tenedor, mayordomo chan struct{}, wg *sync.WaitGroup) {
+    defer wg.Done()
+    
+    for i := 0; i < 3; i++ {
+        pensar(id)
+        
+        // Pedir permiso al mayordomo
+        mayordomo <- struct{}{} // Si el canal está lleno, espera
+        
+        // Tomar tenedores (cualquier orden, porque el mayordomo limita)
+        izq.mu.Lock()
+        der.mu.Lock()
+        
+        comer(id)
+        
+        // Soltar tenedores
+        der.mu.Unlock()
+        izq.mu.Unlock()
+        
+        // Devolver permiso al mayordomo
+        <-mayordomo
+    }
+    fmt.Printf("[filósofo %d] SATISFECHO\n", id)
+}
+
+func mainConMayordomo() {
+    const n = 5
+    var wg sync.WaitGroup
+    wg.Add(n)
+    
+    // Mayordomo: permite máximo 4 filósofos simultáneamente
+    mayordomo := make(chan struct{}, 4)
+
+    forks := make([]*tenedor, n)
+    for i := 0; i < n; i++ {
+        forks[i] = &tenedor{}
+    }
+
+    for i := 0; i < n; i++ {
+        izq := forks[i]
+        der := forks[(i+1)%n]
+        go filosofoConMayordomo(i, izq, der, mayordomo, &wg)
+    }
+
+    wg.Wait()
+    fmt.Println("✅ Todos los filósofos han comido sin deadlock (con mayordomo).")
 }
