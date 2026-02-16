@@ -25,7 +25,7 @@ Este repositorio contiene **9 problemas** progresivos para que un estudiante des
     go run ./problema9
     ```
 
-5. Para cada problema, busca los comentarios `// TODO:` y sigue las indicaciones.
+5. Para cada problema, busca los comentarios "// TODo:", y sigue las indicaciones.
  
 6. Para detectar condiciones de carrera, puedes ejecutar el detector de carreras:
 
@@ -77,7 +77,7 @@ Modelar el problema clásico con mutex/canales; comprender cómo evitar deadlock
 
 ## Recomendaciones
 
-- Para cada problema, empieza por leer todoos comentarios `// TODO:`, antes de empezar a modificar el código.
+- Para cada problema, empieza por leer todoos comentarios `// "TODO:", antes de empezar a modificar el código.
 - Itera: primero haz que funcione, luego mide y mejora.
 - Usa `-race` para revelar errores sutiles.
 - Agrega *logs* con `fmt.Printf` para entender el orden de ejecución.
